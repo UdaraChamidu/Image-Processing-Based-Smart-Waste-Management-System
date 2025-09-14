@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>♻️ Real-Time Waste Detection</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url("https://images.unsplash.com/photo-1590490357530-71d1f9f3b09b") no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        .camera-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            margin: auto;
+        }
+        .camera-feed {
+            border: 3px solid #198754;
+            border-radius: 15px;
+            max-width: 100%;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        .btn {
+            border-radius: 50px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="camera-card text-center">
+        <h2 class="text-success fw-bold">📷 Real-Time Waste Detection</h2>
+        <p class="text-muted mb-3">Your camera is live. Detected objects will appear with bounding boxes and labels.</p>
+
+        <!-- Live Camera Feed -->
+        <img src="{{ url_for('video_feed') }}" class="camera-feed mt-3">
+
+        <!-- Action Button -->
+        <div class="mt-4">
+            <a href="/" class="btn btn-success">⬅️ Back to Upload</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
