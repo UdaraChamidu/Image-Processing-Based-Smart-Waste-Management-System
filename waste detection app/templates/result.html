@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classification Result</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url("https://images.unsplash.com/photo-1587574293340-73d0e176cda7") no-repeat center center fixed;
+            background-size: cover;
+        }
+        .result-card {
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 550px;
+            margin: auto;
+        }
+        .result-image {
+            border: 3px solid #198754;
+            border-radius: 10px;
+            max-width: 90%;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn {
+            border-radius: 50px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="result-card text-center">
+        <h2 class="text-success fw-bold">✅ Classification Result</h2>
+
+        <!-- Classified Image -->
+        <img src="{{ url_for('static', filename='uploads/' + image) }}" class="result-image mt-3">
+
+        <!-- Predicted Class & Confidence -->
+        <h3 class="mt-4">Predicted Class: <span class="text-primary fw-bold">{{ label }}</span></h3>
+        <h5 class="text-secondary">Confidence: {{ confidence }}</h5>
+
+        <!-- Result Message -->
+        {% if label.lower() in ["plastic", "metal", "green-glass", "white-glass", "brown-glass"] %}
+            <div class="alert alert-success mt-3 shadow-sm">
+                ♻️ <b>Recyclable:</b> Please place this item in the <b>Recycling Bin</b>.
+            </div>
+        {% else %}
+            <div class="alert alert-danger mt-3 shadow-sm">
+                🚮 <b>General Waste:</b> Please dispose of this item in the <b>General Waste Bin</b>.
+            </div>
+        {% endif %}
+
+        <!-- Action Button -->
+        <a href="/" class="btn btn-success mt-3">🔄 Classify Another Image</a>
+    </div>
+</div>
+</body>
+</html>

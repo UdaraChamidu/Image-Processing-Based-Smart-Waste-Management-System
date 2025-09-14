@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>♻️ Smart Waste Classification</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Gradient Background */
+        body {
+            background: linear-gradient(135deg, #d4fc79, #96e6a1);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Content Card */
+        .content-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        /* Headings */
+        h1 {
+            font-weight: bold;
+            font-size: 2.5rem;
+            color: #2c6e49;
+        }
+
+        p {
+            color: #4b4b4b;
+        }
+
+        /* Buttons */
+        .btn {
+            font-size: 1.1rem;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Smooth Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="content-card text-center col-md-6">
+            <h1 class="mb-3">♻️ Smart Waste Classification</h1>
+            <p class="mb-4">Upload a waste image or use your camera for real-time detection</p>
+
+            <!-- Image Upload Form -->
+            <form action="/" method="POST" enctype="multipart/form-data">
+                <input type="file" name="file" class="form-control mb-3" required>
+                <button class="btn btn-success w-100">Classify Waste</button>
+            </form>
+
+            <!-- Camera Detection Button -->
+            <a href="/camera" class="btn btn-primary w-100 mt-3">📷 Use Camera for Real-Time Detection</a>
+
+            <!-- View Statistics -->
+            <a href="/stats" class="btn btn-info w-100 mt-3">📊 View Statistics</a>
+        </div>
+    </div>
+</body>
+</html>

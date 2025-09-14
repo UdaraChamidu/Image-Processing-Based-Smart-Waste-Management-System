@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Classification Report</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url("https://images.unsplash.com/photo-1597668087701-04727ab4c3a3") no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.92);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.1);
+        }
+        .table thead {
+            background-color: #198754;
+            color: white;
+        }
+        .btn {
+            border-radius: 50px;
+            padding: 10px 20px;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        img.chart {
+            border: 3px solid #198754;
+            border-radius: 10px;
+            max-width: 80%;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center text-success fw-bold mb-4">📊 Waste Classification Report</h2>
+
+    {% if stats %}
+        <div class="chart-container">
+            <img src="{{ url_for('static', filename='stats_chart.png') }}" class="chart">
+        </div>
+
+        <div class="table-responsive mt-4">
+            <table class="table table-bordered table-hover text-center align-middle">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category, count in stats.items() %}
+                    <tr>
+                        <td><strong>{{ category }}</strong></td>
+                        <td>{{ count }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/download_csv" class="btn btn-primary me-2">📥 Download CSV</a>
+            <a href="/download_pdf" class="btn btn-danger">📄 Download PDF</a>
+        </div>
+    {% else %}
+        <div class="alert alert-warning mt-3 text-center shadow-sm">
+            ⚠️ No statistics yet! Please classify some images first.
+        </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="/" class="btn btn-success">⬅️ Go Back</a>
+    </div>
+</div>
+</body>
+</html>
