@@ -1,7 +1,8 @@
 # ♻️ Smart Waste Classification
 
 An **AI-powered web application** that classifies waste materials to support proper **recycling** and **eco-friendly disposal**. 🌍  
-Demo link: https://huggingface.co/spaces/UdaraChamidu/Image-Processing-Based-Smart-Waste-Management-System
+
+- Demo link: https://huggingface.co/spaces/UdaraChamidu/Image-Processing-Based-Smart-Waste-Management-System
 ---
 
 ## ✨ Features
