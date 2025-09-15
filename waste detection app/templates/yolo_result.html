@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YOLO Detection Result</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background: url("https://images.unsplash.com/photo-1587574293340-73d0e176cda7")
+          no-repeat center center fixed;
+        background-size: cover;
+      }
+      .result-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+        max-width: 800px;
+        margin: auto;
+      }
+      .result-image {
+        border: 3px solid #198754;
+        border-radius: 10px;
+        max-width: 100%;
+        max-height: 500px;
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+      }
+      .btn {
+        border-radius: 50px;
+        padding: 10px 20px;
+      }
+      .detection-badge {
+        display: inline-block;
+        margin: 5px;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+      }
+      .confidence-high {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .confidence-medium {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeaa7;
+      }
+      .confidence-low {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .image-comparison {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+
+      .image-container {
+        text-align: center;
+        flex: 1;
+        min-width: 300px;
+      }
+
+      .image-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        border: 2px solid #198754;
+      }
+
+      .stats-summary {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        margin: 15px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-4">
+      <div class="result-card">
+        <h2 class="text-success fw-bold text-center">
+          🎯 YOLO Detection Results
+        </h2>
+
+        {% if detection_count > 0 %}
+        <!-- Detection Summary -->
+        <div class="stats-summary text-center">
+          <h4 class="text-primary">📊 Detection Summary</h4>
+          <p class="mb-2">
+            <strong>Objects Found:</strong> {{ detection_count }}
+          </p>
+          <p class="mb-0"><strong>Confidence Threshold:</strong> 50%</p>
+        </div>
+
+        <!-- Image Comparison -->
+        <div class="image-comparison">
+          <div class="image-container">
+            <h5 class="text-muted">📤 Original Image</h5>
+            <img
+              src="{{ url_for('static', filename='uploads/' + original_image) }}"
+              alt="Original"
+            />
+          </div>
+          <div class="image-container">
+            <h5 class="text-success">🎯 With Detections</h5>
+            <img
+              src="{{ url_for('static', filename='uploads/' + detected_image) }}"
+              alt="With Detections"
+            />
+          </div>
+        </div>
+
+        <!-- Detection Details -->
+        <div class="mt-4">
+          <h5 class="text-center mb-3">🏷️ Detected Objects</h5>
+          <div class="text-center">
+            {% for detection in detections %} {% set confidence_class =
+            'confidence-high' if detection.confidence >= 0.8 else
+            'confidence-medium' if detection.confidence >= 0.6 else
+            'confidence-low' %}
+            <span class="detection-badge {{ confidence_class }}">
+              <strong>{{ detection.class }}</strong> - {{
+              "%.1f"|format(detection.confidence * 100) }}%
+            </span>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Recycling Guidance -->
+        <div class="mt-4">
+          <h5 class="text-center mb-3">♻️ Recycling Guidance</h5>
+          {% for detection in detections %} {% if detection.class in ['plastic',
+          'metal', 'glass', 'paper', 'cardboard'] %}
+          <div class="alert alert-success">
+            <strong>{{ detection.class.title() }}:</strong> ♻️ Recyclable -
+            Place in recycling bin
+          </div>
+          {% elif detection.class in ['organic', 'food', 'biological'] %}
+          <div class="alert alert-warning">
+            <strong>{{ detection.class.title() }}:</strong> 🌱 Compostable -
+            Place in organic waste bin
+          </div>
+          {% else %}
+          <div class="alert alert-danger">
+            <strong>{{ detection.class.title() }}:</strong> 🗑️ General waste -
+            Place in trash bin
+          </div>
+          {% endif %} {% endfor %}
+        </div>
+
+        {% else %}
+        <!-- No Detections -->
+        <div class="text-center mt-4">
+          <img
+            src="{{ url_for('static', filename='uploads/' + original_image) }}"
+            class="result-image"
+          />
+          <div class="alert alert-info mt-3">
+            <h5>🔍 No Objects Detected</h5>
+            {% if message %}
+            <p>{{ message }}</p>
+            {% else %}
+            <p>
+              No waste objects were detected with sufficient confidence (≥50%).
+              Try with a clearer image or different angle.
+            </p>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Action Buttons -->
+        <div class="text-center mt-4">
+          <a href="/" class="btn btn-success me-2">🔄 Process Another Image</a>
+          <a href="/stats" class="btn btn-info">📊 View Statistics</a>
+        </div>
+
+        <!-- Color Legend -->
+        <div class="mt-4 text-center">
+          <small class="text-muted">
+            <strong>Confidence Colors:</strong>
+            <span class="detection-badge confidence-high">High ≥80%</span>
+            <span class="detection-badge confidence-medium">Medium ≥60%</span>
+            <span class="detection-badge confidence-low">Low ≥50%</span>
+          </small>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
