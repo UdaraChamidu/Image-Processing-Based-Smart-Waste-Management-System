@@ -14,7 +14,6 @@
             margin: 0;
             padding: 0;
         }
-
         /* Content Card */
         .content-card {
             background: rgba(255, 255, 255, 0.95);
@@ -23,18 +22,15 @@
             box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
             animation: fadeIn 0.8s ease-in-out;
         }
-
         /* Headings */
         h1 {
             font-weight: bold;
             font-size: 2.5rem;
             color: #2c6e49;
         }
-
         p {
             color: #4b4b4b;
         }
-
         /* Buttons */
         .btn {
             font-size: 1.1rem;
@@ -42,16 +38,24 @@
             border-radius: 50px;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
         }
-
         .btn:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
-
         /* Smooth Animation */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        /* File input styling */
+        .form-control {
+            border-radius: 15px;
+            border: 2px solid #96e6a1;
+            padding: 12px;
+        }
+        .form-control:focus {
+            border-color: #2c6e49;
+            box-shadow: 0 0 0 0.2rem rgba(44, 110, 73, 0.25);
         }
     </style>
 </head>
@@ -59,19 +63,72 @@
     <div class="container d-flex justify-content-center align-items-center min-vh-100">
         <div class="content-card text-center col-md-6">
             <h1 class="mb-3">♻️ Smart Waste Classification</h1>
-            <p class="mb-4">Upload a waste image or use your camera for real-time detection</p>
+            <p class="mb-4">Upload a waste image for AI-powered classification and recycling guidance</p>
+
+            {% if error %}
+            <div class="alert alert-danger">
+                ⚠️ {{ error }}
+            </div>
+            {% endif %}
 
             <!-- Image Upload Form -->
             <form action="/" method="POST" enctype="multipart/form-data">
-                <input type="file" name="file" class="form-control mb-3" required>
-                <button class="btn btn-success w-100">Classify Waste</button>
+                <div class="mb-3">
+                    <label for="file" class="form-label fw-bold">Select Image</label>
+                    <input type="file" name="file" id="file" class="form-control" 
+                           accept="image/*" required>
+                    <small class="text-muted">Supported: PNG, JPG, JPEG, GIF, BMP</small>
+                </div>
+                
+                <!-- Detection Mode Selection -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Detection Mode</label>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-check p-3 border rounded bg-light">
+                                <input class="form-check-input" type="radio" name="detection_mode" 
+                                       id="classification" value="classification" checked>
+                                <label class="form-check-label" for="classification">
+                                    <strong>🧠 Classification</strong><br>
+                                    <small class="text-muted">Single item classification</small>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-check p-3 border rounded bg-light">
+                                <input class="form-check-input" type="radio" name="detection_mode" 
+                                       id="yolo" value="yolo">
+                                <label class="form-check-label" for="yolo">
+                                    <strong>🎯 Detection</strong><br>
+                                    <small class="text-muted">Multiple object detection</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-success w-100" type="submit">
+                    🔍 Process Image
+                </button>
             </form>
 
-            <!-- Camera Detection Button -->
-            <a href="/camera" class="btn btn-primary w-100 mt-3">📷 Use Camera for Real-Time Detection</a>
+            <!-- Camera Detection Button (Disabled for Hugging Face) -->
+            <a href="/camera" class="btn btn-secondary w-100 mt-3">
+                📷 Camera Detection (Not Available in Cloud)
+            </a>
 
-            
+            <!-- Statistics Button -->
             <a href="/stats" class="btn btn-info w-100 mt-3">📊 View Statistics</a>
+
+            <!-- Information Section -->
+            <div class="mt-4 p-3 bg-light rounded">
+                <h6 class="text-success">🌱 How it works:</h6>
+                <ul class="text-start text-muted small mb-0">
+                    <li><strong>🧠 Classification Mode:</strong> Identifies single waste item type with recycling guidance</li>
+                    <li><strong>🎯 Detection Mode:</strong> Finds and labels multiple objects in complex scenes</li>
+                    <li><strong>📊 Statistics:</strong> Track your classification history and generate reports</li>
+                </ul>
+            </div>
         </div>
     </div>
 </body>
