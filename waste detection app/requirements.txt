@@ -6,3 +6,4 @@ pandas
 matplotlib
 fpdf
 scikit-learn
+ultralytics

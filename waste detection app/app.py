@@ -20,7 +20,7 @@ os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 # -----------------------------
 # Load Keras classification model
-best_model = load_model(r"C:\Users\ASHAN\Desktop\waste detection model\waste detection app\efficientnet_b0_best.keras")
+best_model = load_model("efficientnet_b0_best.keras")
 IMG_SIZE = 128
 
 CLASS_LABELS = ['biological', 'brown-glass', 'cardboard', 'green-glass',
@@ -33,7 +33,7 @@ stats = {}
 
 # -----------------------------
 # Load YOLOv8 model
-yolo_model = YOLO(r"C:\Users\ASHAN\Desktop\waste detection model\waste detection app\best.pt")
+# yolo_model = YOLO(r"C:\Users\ASHAN\Desktop\waste detection model\waste detection app\best.pt")
 
 # -----------------------------
 # Preprocess image for classification
